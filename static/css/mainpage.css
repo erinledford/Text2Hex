@@ -111,4 +111,12 @@
             button {
                 font-size: 1rem;
             }
+
+        .github-logo {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 40px;
+            height: 40px;
+            }
         }
