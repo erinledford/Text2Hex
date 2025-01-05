@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text2Hex - Convert Your Text into a Color</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Text2Hex">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Text2Hex - Convert Your Text into a Color">
+    <meta property="og:description" content="This website utilizes hashing to generate a hex code for any combination of characters, meaning you can turn your name, or anyone's name into a color!">
+    <meta property="og:image" content="https://text2hex.vercel.app/images/text2hex.png"> <!-- Image for preview -->
+    <meta property="og:url" content="https://text2hex.vercel.app">  <!-- URL of your website -->
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;  /* Dark background */
+            color: #E0E0E0;  /* Light text color */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #76FF03;  /* Light green color */
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #B0BEC5;  /* Lighter grey */
+            margin-bottom: 30px;
+        }
+
+        /* Form Styles */
+        .form-container {
+            background-color: #333;  /* Dark background for the form */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        label {
+            font-size: 1.1rem;
+            color: #E0E0E0;  /* Light text for the label */
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 20px;
+            border-radius: 4px;
+            border: 1px solid #444;  /* Dark border for inputs */
+            background-color: #222;  /* Dark background for inputs */
+            color: #E0E0E0;  /* Light text color in inputs */
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        input[type="text"] {
+            font-size: 1.1rem;
+        }
+
+        button {
+            background-color: #76FF03;  /* Green button */
+            color: #121212;  /* Dark text on the button */
+            font-size: 1.1rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s ease, background-color 0.3s ease; /* Button hover transition */
+        }
+
+        /* Button Hover Effect */
+        button:hover {
+            background-color: #64DD17;  /* Darker green on hover */
+            transform: scale(1.05);  /* Slightly enlarge the button */
+        }
+
+        button:hover {
+            background-color: #64DD17;  /* Darker green on hover */
+        }
+
+        /* Hash Output Styles */
+        .hash-output {
+            margin-top: 30px;
+            padding: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Error Message Styles */
+        .error {
+            color: #FF5252;  /* Red for error */
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            button {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Text2Hex</h1>
+    <p class="subtitle">Convert your text into a unique color. Try your name!</p>
+
+    <div class="form-container">
+        <form method="POST">
+            <label for="text">Enter Text:</label>
+            <input type="text" id="text" name="text" placeholder="Enter text to convert" required>
+
+            <label for="algorithm">Choose Hash Algorithm:</label>
+            <select id="algorithm" name="algorithm" required>
+                <option value="sha256">SHA-256</option>
+                <option value="sha512">SHA-512</option>
+                <option value="sha224">SHA-224</option>
+            </select>
+
+            <button type="submit">Convert to Color Code</button>
+        </form>
+    </div>
+
+    {% if hashed %}
+    <div class="hash-output" style="background-color: #{{ color_code }}">
+        <p>Hex Color Code (First 6 characters): {{ hashed }}</p>
+    </div>
+    {% endif %}
+    
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+</body>
+</html>
